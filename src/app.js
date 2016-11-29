@@ -1,6 +1,8 @@
 import $ from 'jquery';
+import Backbone from 'backbone';
 import _ from 'underscore';
-import ApplicationView from 'app/views/application_view';
+
+import StockListView from 'app/views/stocks_list_view';
 
 const simulate = function(quote) {
   // Calculate a random price movement
@@ -17,14 +19,52 @@ const simulate = function(quote) {
   quote.trigger('change:price', change);
 };
 
+var stockData = [
+  {stock: "Cristal's HumorUs",symbol: "HUMOR",price: 88.50},
+  {stock: "Sophia's Cloth Sim",symbol: "CLOTH",price: 81.70},
+  {stock: "Val's Habitmon",symbol: "HABIT",price: 98.00},
+  {stock: "Rowan's Super Hero Draft",symbol: "SUPER", price: 83.10 },
+  {stock: "Nicole's Ingredient Inspector",symbol: "INGRD",price: 79.40},
+  {stock: "Jess's Digital Mixtape",symbol: "MXTPE",price: 109.20},
+  {stock: "Leah's Centaur",symbol: "CNTAR", price: 90.70},
+  {stock: "Lisa's Evolution In Color",symbol: "EVCLR", price: 101.90},
+  {stock: "Jade's Fuzz Therapy",symbol: "FUZZY", price: 88.60}
+]
+
+// $(document).ready(function() {
+//   var application = new StockListView({
+//     el: $('#application'),
+//     stockData: stockData
+//   });
+//   application.render();
+//
+//   setInterval(function() {
+//     // Call simulate() on each quote in the ApplicationView
+//   }, 1000);
+// });
+
+var QuoteView = Backbone.View.extend({
+  initialize: function(options) {
+    this.stock = options.stock;
+    // this.symbol = options.symbol;
+    // this.price = options.price;
+    // this.template = options.template;
+  },
+
+  render: function() {
+    var html = '<li class="quotes">';
+    html += '<h2>' + this.stock.symbol + '</h2>';
+    html += '<p>$' + this.stock.price + '</p>';
+    html += '</li>';
+    this.$el.html(html);
+
+    // Enable chained calls
+    return this;
+  }
+});
+
 $(document).ready(function() {
-  var appView = new ApplicationView({
-    el: '#application'
-  });
-
-  appView.render();
-
-  setInterval(function() {
-    // Call simulate() on each quote in the ApplicationView
-  }, 1000);
+  var quoteListElement = $('.quotes');
+  var card = new QuoteView({stock: stockData[0]});
+  quoteListElement.append(card.render().$el);
 });
