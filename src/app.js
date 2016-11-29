@@ -2,7 +2,7 @@ import $ from 'jquery';
 import Backbone from 'backbone';
 import _ from 'underscore';
 
-import StockListView from 'app/views/stocks_list_view';
+// import StockListView from 'app/views/stocks_list_view';
 
 const simulate = function(quote) {
   // Calculate a random price movement
@@ -46,28 +46,27 @@ var stockData = [
 var QuoteView = Backbone.View.extend({
   initialize: function(options) {
     this.stock = options.stock;
-    // this.symbol = options.symbol;
-    // this.price = options.price;
-    // this.template = options.template;
-  },
+    this.template = options.template;
+  }, //close initialize
 
   render: function() {
-    var html = '<li class="quotes">';
-    html += '<h2>' + this.stock.symbol + '</h2>';
-    html += '<p>$' + this.stock.price + '</p>';
-    html += '</li>';
+    var html = this.template({stock: this.stock})
     this.$el.html(html);
 
     // Enable chained calls
     return this;
-  }
+  }//close render
 });
 
 $(document).ready(function() {
+  var stockTemplate = _.template($('#tmpl-quote-view').html());
   var quoteListElement = $('.quotes');
   var cardList = []
   stockData.forEach(function(stock) {
-    var card = new QuoteView({stock: stock});
+    var card = new QuoteView({
+      stock: stock,
+      template: stockTemplate
+    });
     cardList.push(card);
     quoteListElement.append(card.render().$el);
   })
