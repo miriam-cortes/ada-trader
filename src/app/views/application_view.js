@@ -32,26 +32,9 @@ const ApplicationView = Backbone.View.extend({
     },this);
 
     return this;
-  }, //close render
+  } //close render
 
-  events: {
-    'click .btn-buy': 'buyStock',
-    'click .btn-sell': 'sellStock',
-    // 'simulate': 'setInterval'
-  }, //close events
 
-  buyStock: function(event) {
-    event.preventDefault();
-    this.stockData[0].price += 1
-    // this.simulate();
-    this.render();
-  }, //close buyStock
-
-  sellStock: function(event) {
-    event.preventDefault();
-    this.stockData[0].price -= 1
-    this.render();
-  }//close sellStock
 
 });
 
