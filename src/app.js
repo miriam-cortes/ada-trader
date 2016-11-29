@@ -65,6 +65,10 @@ var QuoteView = Backbone.View.extend({
 
 $(document).ready(function() {
   var quoteListElement = $('.quotes');
-  var card = new QuoteView({stock: stockData[0]});
-  quoteListElement.append(card.render().$el);
-});
+  var cardList = []
+  stockData.forEach(function(stock) {
+    var card = new QuoteView({stock: stock});
+    cardList.push(card);
+    quoteListElement.append(card.render().$el);
+  })
+}); //close jquery document
